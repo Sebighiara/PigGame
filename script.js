@@ -19,6 +19,34 @@ let activePlayer = 0;
 let currentScore = 0;
 let scores = [0, 0];
 
+//function to modify current score of the active player
+const modifyCurrentScore = (activePlayer) => {
+  activePlayer === 0
+    ? (currentScore0El.textContent = currentScore)
+    : (currentScore1El.textContent = currentScore);
+};
+
+//function to modify score of the active player
+const modifyScore = (activePlayer) => {
+  activePlayer === 0
+    ? (score0Element.textContent = scores[activePlayer])
+    : (score1Element.textContent = scores[activePlayer]);
+};
+
+//change side of active player
+const changeSide = (activePlayer) => {
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove("player--active");
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.add("player--active");
+};
+
+//change active player
+const changeActivePlayer = (activePlayer) => (activePlayer === 0 ? 1 : 0);
+
 //roll dice functionallity
 rollDiceBtn.addEventListener("click", function () {
   //dice number
@@ -28,65 +56,24 @@ rollDiceBtn.addEventListener("click", function () {
   diceEl.classList.remove("hidden");
   diceEl.src = `dice-${dice}.png`;
 
-  if (activePlayer === 0) {
-    if (dice !== 1) {
-      currentScore += dice;
-      currentScore0El.textContent = currentScore;
-    } else {
-      currentScore = 0;
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove("player--active");
-      activePlayer = 1;
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add("player--active");
-      currentScore0El.textContent = currentScore;
-    }
+  if (dice !== 1) {
+    currentScore += dice;
+    modifyCurrentScore(activePlayer);
   } else {
-    if (dice !== 1) {
-      currentScore += dice;
-      currentScore1El.textContent = currentScore;
-    } else {
-      currentScore = 0;
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove("player--active");
-      activePlayer = 0;
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add("player--active");
-      currentScore1El.textContent = currentScore;
-    }
+    currentScore = 0;
+    modifyCurrentScore(activePlayer);
+    changeSide(activePlayer);
+    activePlayer = changeActivePlayer(activePlayer);
   }
 });
 
 holdBtn.addEventListener("click", function () {
-  if (activePlayer === 0) {
-    currentScore0El.textContent = 0;
-    scores[activePlayer] += currentScore;
-    score0Element.textContent = scores[activePlayer];
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.remove("player--active");
-    activePlayer = 1;
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add("player--active");
-  } else {
-    currentScore1El.textContent = 0;
-    scores[activePlayer] += currentScore;
-    score1Element.textContent = scores[activePlayer];
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.remove("player--active");
-    activePlayer = 0;
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add("player--active");
-  }
-
+  scores[activePlayer] += currentScore;
   currentScore = 0;
+  modifyCurrentScore(activePlayer);
+  modifyScore(activePlayer);
+  changeSide(activePlayer);
+  activePlayer = changeActivePlayer(activePlayer);
 });
 
 newGameBtn.addEventListener("click", function () {
