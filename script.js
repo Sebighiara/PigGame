@@ -34,7 +34,7 @@ const modifyScore = (activePlayer) => {
 };
 
 //change side of active player
-const changeSide = (activePlayer) => {
+const switchSide = (activePlayer) => {
   document
     .querySelector(`.player--${activePlayer}`)
     .classList.remove("player--active");
@@ -44,8 +44,7 @@ const changeSide = (activePlayer) => {
     .classList.add("player--active");
 };
 
-//change active player
-const changeActivePlayer = (activePlayer) => (activePlayer === 0 ? 1 : 0);
+const switchPlayer = (activePlayer) => (activePlayer === 0 ? 1 : 0);
 
 //roll dice functionallity
 rollDiceBtn.addEventListener("click", function () {
@@ -62,8 +61,8 @@ rollDiceBtn.addEventListener("click", function () {
   } else {
     currentScore = 0;
     modifyCurrentScore(activePlayer);
-    changeSide(activePlayer);
-    activePlayer = changeActivePlayer(activePlayer);
+    switchSide(activePlayer);
+    activePlayer = switchPlayer(activePlayer);
   }
 });
 
@@ -72,8 +71,8 @@ holdBtn.addEventListener("click", function () {
   currentScore = 0;
   modifyCurrentScore(activePlayer);
   modifyScore(activePlayer);
-  changeSide(activePlayer);
-  activePlayer = changeActivePlayer(activePlayer);
+  switchSide(activePlayer);
+  activePlayer = switchPlayer(activePlayer);
 });
 
 newGameBtn.addEventListener("click", function () {
